@@ -11,7 +11,6 @@ import { Actions as ControlsActions } from "../actions/ControlsActions";
 import { Actions as ParticipantActions } from "../actions/ParticipantActions";
 import { Actions as ErrorActions } from "../actions/ErrorActions";
 import ActionsButtons from "./actionsBar/ActionsButtons";
-import "../../styles/main.less";
 import ConferenceRoomContainer from "./ConferenceRoomContainer";
 import ConferencePreConfigContainer from "./ConferencePreConfigContainer";
 import AttendeesWaiting from "./attendees/AttendeesWaiting";

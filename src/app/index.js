@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import thunkMiddleware from "redux-thunk";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 
@@ -7,34 +8,32 @@ import {
   VoxeetProvider,
   reducer as voxeetReducer,
 } from "./VoxeetReactComponents";
-import Main from "./components/main/Main";
+import Routes from "./components/main/routes";
+
+import "../styles/main.less";
+
+const ASSET_PATH = process.env.ASSET_PATH || "/";
 
 const reducers = combineReducers({
   voxeet: voxeetReducer,
 });
 
-const configureStore = () =>
-  createStore(reducers, applyMiddleware(thunkMiddleware));
+const configureStore = () => createStore(reducers, applyMiddleware(thunkMiddleware));
 
 window.addEventListener("storage", function (e) {
-  console.log(sessionStorage.getItem("conferenceId"));
+  console.log('Conference ID', sessionStorage.getItem("conferenceId"));
 });
 
-const settings = {
-  authentication: {
-    credentials: {
-      key: "CONSUMER_KEY",
-      secret: "CONSUMER_SECRET",
-    },
-    serverUrl: "AUTHENTICATION_SERVER_URL",
-  },
-  conferenceAlias: "CONFERENCE_NAME",
-};
+console.group('Dolby.io Conference Application');
+console.log('GitHub repository: https://github.com/FabienLavocat/comms-conference-app');
+console.groupEnd();
 
 ReactDOM.render(
   <VoxeetProvider store={configureStore()}>
     <div>
-      <Main settings={settings} />
+      <Router basename={ASSET_PATH}>
+        <Routes />
+      </Router>
     </div>
   </VoxeetProvider>,
   document.getElementById("app")

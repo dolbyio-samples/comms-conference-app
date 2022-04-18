@@ -2,8 +2,8 @@ import LocalizedStrings from "react-localization";
 
 export const strings = new LocalizedStrings({
   en: {
-    noPstnNumbers: "There is no PSTN numbers...",
-    electronloading: "Voxeet is loading, please wait",
+    noPstnNumbers: "There are no PSTN numbers...",
+    electronloading: "Connection to the Dolby.io conference",
     error: "Error",
     errorPermissionDeniedMicrophone:
       "An error occured when joining the conference. Please make sure to allow access to your microphone.",
@@ -153,12 +153,12 @@ export const strings = new LocalizedStrings({
   },
   fr: {
     noPstnNumbers: "Pas de numéro PSTN ...",
-    electronloading: "Le client Voxeet va démarrer, veuillez patienter",
+    electronloading: "Connexion a la conférence Dolby.io, veuillez patienter",
     error: "Erreur",
     errorPermissionDeniedMicrophone:
-      "Une erreur est survenue lors de la connexion à la conference. Veuillez vérifier l'accès à votre microphone.",
+      "Une erreur est survenue lors de la connexion à la conférence. Veuillez vérifier l'accès à votre microphone.",
     errorPermissionDeniedMicrophoneCamera:
-      "Une erreur est survenue lors de la connexion à la conference. Veuillez vérifier l'accès à votre microphone et caméra.",
+      "Une erreur est survenue lors de la connexion à la conférence. Veuillez vérifier l'accès à votre microphone et caméra.",
     errorIE11:
       "Une extension est nécéssaire pour utiliser IE11. Téléchargez et installez l'extension suivante. Lorsque l'installation est terminée, actualisez cette page.",
     browerNotSupported: "Ce navigateur n'est pas pris en charge.",
@@ -169,13 +169,13 @@ export const strings = new LocalizedStrings({
     microphoneOn: "Votre microphone est activé.",
     cameraOn: "Votre caméra est activée.",
     cameraOff: "Votre caméra est désactivée.",
-    recordConferenceStart: "Votre conference est enregistrée.",
-    recordConferenceStop: "Votre conference n'est plus enregistrée.",
+    recordConferenceStart: "Votre conférence est enregistrée.",
+    recordConferenceStop: "Votre conférence n'est plus enregistrée.",
     screenshareInProgress: "Un partage d'écran est déjà en cours.",
-    recordConferenceStartBy: "Votre conference est enregistrée par ",
-    recordConferenceStopBy: "Votre conference n'est plus enregistrée par ",
+    recordConferenceStartBy: "Votre conférence est enregistrée par ",
+    recordConferenceStopBy: "Votre conférence n'est plus enregistrée par ",
     conferenceAlreadyRecord:
-      "Votre conference est déjà enregistrée par un autre participant.",
+      "Votre conférence est déjà enregistrée par un autre participant.",
     leave: "Quitter",
     audio: "Son 3D",
     audioTitle: "Audio", // !!!
@@ -191,7 +191,7 @@ export const strings = new LocalizedStrings({
     pincode: "Call-in",
     sendMessage: "Envoyer",
     pinCodeExplanations:
-      "Appelez un numéro ci-dessous et renseignez le code de la conference pour rejoindre la conference via RTCP.",
+      "Appelez un numéro ci-dessous et renseignez le code de la conférence pour rejoindre la conférence via RTCP.",
     record: "Enregistrer",
     share: "Partager",
     shareAlreadyStarted:

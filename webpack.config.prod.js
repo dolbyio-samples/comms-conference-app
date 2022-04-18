@@ -13,17 +13,11 @@ try {
 
 module.exports = {
   mode: "production",
-  entry: ["./src/app/VoxeetReactComponents.js"],
+  entry: ["./src/app/index.js"],
   output: {
     path: path.join(__dirname, "dist"),
     filename: "bundle.js",
-    library: "VoxeetReactComponents",
-    libraryTarget: "commonjs2",
-  },
-  externals: {
-    "@voxeet/voxeet-web-sdk": true,
-    react: true,
-    "react-dom": true,
+    publicPath: "",
   },
   module: {
     rules: [
@@ -50,16 +44,6 @@ module.exports = {
         },
       },
       {
-        test: /\.(jpg|jpeg|gif|png)$/,
-        exclude: /node_modules/,
-        loader: "url-loader?limit=65000&name=images/[name].[ext]",
-      },
-      {
-        test: /\.svg$/,
-        loader:
-          "url-loader?limit=65000&mimetype=image/svg+xml&name=fonts/[name].[ext]",
-      },
-      {
         test: /\.woff$/,
         loader:
           "url-loader?limit=65000&mimetype=application/font-woff&name=fonts/[name].[ext]",
@@ -79,6 +63,15 @@ module.exports = {
         loader:
           "url-loader?limit=65000&mimetype=application/vnd.ms-fontobject&name=fonts/[name].[ext]",
       },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "url-loader?limit=10000&mimetype=image/svg+xml",
+      },
+      {
+        test: /\.(jpg|jpeg|gif|png)$/,
+        exclude: /node_modules/,
+        loader: "url-loader?limit=65000&name=images/[name].[ext]",
+      },
     ],
   },
   plugins: [
@@ -90,7 +83,12 @@ module.exports = {
     }),
     new CopyWebpackPlugin([{ from: "./src/static", ignore: ["*.html"] }]),
     new MiniCssExtractPlugin({
-      filename: "voxeet-react-components.css"
+      filename: "bundle.css"
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: "./src/static/index.html",
+      js: [],
     }),
     new webpack.NoEmitOnErrorsPlugin(),
   ],

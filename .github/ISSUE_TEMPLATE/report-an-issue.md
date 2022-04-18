@@ -1,9 +1,9 @@
 ---
 name: Report an issue
-about: Use this template to report an issue to Voxeet.
+about: Use this template to report an issue to Dolby.io.
 title: ''
 labels: bug
-assignees: Energizz
+assignees: FabienLavocat
 
 ---
 
@@ -11,9 +11,9 @@ assignees: Energizz
 
 [A clear and concise description of what the bug is.]
 
-**Expected Behaviour**
+**Expected Behavior**
 
-[Describe the expected behaviour of the feature.]
+[Describe the expected behavior of the feature.]
 
 **Steps to Reproduce the Problem**
 

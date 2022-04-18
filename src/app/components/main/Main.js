@@ -1,95 +1,159 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useState } from "react";
+import LocalizedStrings from "react-localization";
 
-import { ConferenceRoom } from "../../VoxeetReactComponents";
+import Conference from "./conference";
+import dolbyLogo from "../../../static/images/dolbyio-logo.png";
 
-const constraints = {
-  audio: true,
-  video: true,
-};
+let strings = new LocalizedStrings({
+  en: {
+    join: "Join call",
+    name: "Your name",
+    accessToken: "Your access token",
+    conferenceName: "Your conference name",
+    copyright: " All Rights Reserved",
+    next: "Next",
+    joinAsListener: "Join as a listener",
+    defaultSettings: "Connect using default settings",
+    advancedOptions: "advanced options",
+    show: "Show",
+    hide: "Hide"
+  },
+  fr: {
+    join: "Rejoindre la conférence",
+    name: "Nom d'utilisateur",
+    accessToken: "Votre jeton d'authentification",
+    conferenceName: "Nom de la conférence",
+    copyright: " Tous droits réservés",
+    next: "Suivant",
+    joinAsListener: "Rejoindre en tant qu'auditeur",
+    defaultSettings: "Se connecter avec les paramètres par défaut",
+    advancedOptions: "les options avancées",
+    show: "Afficher",
+    hide: "Masquer"
+  },
+});
 
-const videoRatio = {
-  width: 1280,
-  height: 720,
-};
+const Main = ({ conferenceAlias, accessToken }) => {
+  const conferenceInUrl = conferenceAlias != null && conferenceAlias.length >= 0;
+  const accessTokenInUrl = accessToken != null && accessToken.length >= 0;
+  const [ getAccessToken, setAccessToken ] = useState(accessToken);
+  const [ alias, setAlias ] = useState(conferenceAlias);
+  const [ username, setUsername ] = useState();
+  const [ useDefaultSettings, setUseDefaultSettings ] = useState(true);
+  const [ isListener, setIsListener ] = useState(false);
+  const [ showOptions, setShowOptions ] = useState(false);
+  const [ joinSubmitted, setJoinSubmitted ] = useState(false);
 
-const settings = {
-  consumerKey: "CONSUMER_KEY",
-  consumerSecret: "CONSUMER_SECRET",
-  conferenceAlias: "conference_name",
-};
+  const toggleConfiguration = () => {
+    setUseDefaultSettings(!useDefaultSettings);
+  };
 
-const Main = ({ settings }) => {
-  const [token, setToken] = useState();
-  const [error, setError] = useState();
+  const handleOnLeave = () => {
+    setJoinSubmitted(false);
+  };
 
-  function fetchData() {
-    if (settings.authentication.serverUrl === "") return;
-
-    const headers = new Headers();
-
-    const params = {
-      method: "GET",
-      headers,
-      mode: "cors",
-      cache: "default",
-    };
-
-    fetch(settings.authentication.serverUrl, params)
-      .then((response) => response.json().then((json) => ({ json, response })))
-      .then(({ json, response }) => {
-        if (!response.ok) {
-          return Promise.reject(json);
-        } else if (response.status >= 200 && response.status <= 299) {
-          return json;
-        }
-        return Promise.reject(json);
-      })
-      .then(
-        ({ access_token }) => {
-          setToken(access_token);
-        },
-        (error) => {
-          setError(error.message || "Something bad happened");
-        }
-      );
+  if (joinSubmitted) {
+    return (
+      <Conference
+        conferenceAlias={alias}
+        accessToken={getAccessToken}
+        handleOnLeave={handleOnLeave}
+      />
+    );
   }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  return (
+    <div className="content-wrapper">
+      <div className="content-sample">
+        <div className="dolby-container-logo">
+          <img src={dolbyLogo} alt="Dolby.io" />
+        </div>
+        {!accessTokenInUrl && (
+          <div className="input-field">
+            <input
+              name="accessToken"
+              placeholder={strings.accessToken}
+              value={getAccessToken ?? ""}
+              onChange={(e) => setAccessToken(e.target.value)}
+              id="accessToken"
+              type="text"
+              className="validate"
+            />
+          </div>
+        )}
+        {!conferenceInUrl && (
+          <div className="input-field">
+            <input
+              name="conferenceName"
+              placeholder={strings.conferenceName}
+              value={alias ?? ""}
+              onChange={(e) => setAlias(e.target.value)}
+              id="conferenceName"
+              type="text"
+              className="validate"
+            />
+          </div>
+        )}
+        <div className="input-field">
+          <input
+            name="username"
+            placeholder={strings.name}
+            value={username ?? ""}
+            onChange={(e) => setUsername(e.target.value)}
+            id="username"
+            type="text"
+            className="validate"
+          />
+        </div>
+        <div
+          className="advanced-options"
+          onClick={() => setShowOptions(!showOptions)}
+        >
+          {`${showOptions ? strings.hide : strings.show} ${strings.advancedOptions}`}
+          <div className={showOptions ? 'arrow-up' : 'arrow-down'} />
+        </div>
+        {showOptions && <React.Fragment>
+          <input
+            type="checkbox"
+            id="isListener"
+            checked={isListener}
+            onChange={(e) => setIsListener(!isListener)}
+          />
+          <label id="isListenerLabel" htmlFor="isListener">
+            {strings.joinAsListener}
+          </label>
 
-  return settings.authentication.serverUrl !== "" ? (
-    !!token && !error ? (
-      <ConferenceRoom
-        isWidget={false}
-        autoJoin
-        videoRatio={videoRatio}
-        kickOnHangUp
-        handleOnLeave={() => console.log("participant disconnected")}
-        handleOnConnect={() => console.log("participant connecting")}
-        constraints={constraints}
-        conferenceAlias={settings.conferenceAlias}
-        videoCodec={"H264"}
-        oauthToken={token && token}
-        refreshTokenCallback={token && fetchData}
-      />
-    ) : (
-      <div>not connected</div>
-    )
-  ) : (
-    <ConferenceRoom
-      isWidget={false}
-      autoJoin
-      videoRatio={videoRatio}
-      kickOnHangUp
-      handleOnLeave={() => console.log("participant disconnected")}
-      handleOnConnect={() => console.log("participant connecting")}
-      constraints={constraints}
-      conferenceAlias={settings.conferenceAlias}
-      videoCodec={"H264"}
-      consumerKey={settings.authentication.credentials.key}
-      consumerSecret={settings.authentication.credentials.secret}
-    />
+          <input
+            type="checkbox"
+            id="configuration"
+            checked={useDefaultSettings}
+            onChange={toggleConfiguration}
+          />
+          <label id="configurationLabel" htmlFor="configuration">
+            {strings.defaultSettings}
+          </label>
+        </React.Fragment>}
+
+        <div className="blockButton">
+          <button
+            id="join"
+            type="button"
+            disabled={!alias || alias.length === 0}
+            className={
+              !getAccessToken || getAccessToken.length <= 0 || !alias || alias.length <= 0
+                ? "waves-effect waves-light disable"
+                : "waves-effect waves-light"
+            }
+            onClick={() => setJoinSubmitted(true)}
+          >
+            <span>{strings.next}</span>
+          </button>
+        </div>
+      </div>
+      <div className="copyright">
+        <span>Copyright © {new Date().getFullYear()} Dolby.io — {strings.copyright}</span>
+      </div>
+    </div>
   );
 };
 

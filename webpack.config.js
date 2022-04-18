@@ -24,9 +24,9 @@ module.exports = {
   },
   devServer: {
     port: 8080,
-    https: true,
+    https: false,
     disableHostCheck: true,
-    host: "0.0.0.0",
+    host: "localhost",
   },
   module: {
     rules: [
