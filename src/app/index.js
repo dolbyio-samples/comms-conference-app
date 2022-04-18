@@ -8,7 +8,7 @@ import {
   VoxeetProvider,
   reducer as voxeetReducer,
 } from "./VoxeetReactComponents";
-import Routes from "./components/main/routes";
+import Main from "./components/main/Main";
 
 import "../styles/main.less";
 
@@ -30,11 +30,9 @@ console.groupEnd();
 
 ReactDOM.render(
   <VoxeetProvider store={configureStore()}>
-    <div>
-      <Router basename={ASSET_PATH}>
-        <Routes />
-      </Router>
-    </div>
+    <Router basename={ASSET_PATH}>
+      <Main />
+    </Router>
   </VoxeetProvider>,
   document.getElementById("app")
 );

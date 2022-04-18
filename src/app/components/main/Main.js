@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import LocalizedStrings from "react-localization";
+import { useLocation } from "react-router-dom";
 
 import Conference from "./conference";
 import dolbyLogo from "../../../static/images/dolbyio-logo.png";
@@ -9,7 +10,7 @@ let strings = new LocalizedStrings({
     join: "Join call",
     name: "Your name",
     accessToken: "Your access token",
-    conferenceName: "Your conference name",
+    conferenceName: "The conference name",
     copyright: " All Rights Reserved",
     next: "Next",
     joinAsListener: "Join as a listener",
@@ -33,11 +34,21 @@ let strings = new LocalizedStrings({
   },
 });
 
-const Main = ({ conferenceAlias, accessToken }) => {
+function useQuery() {
+  const { search } = useLocation();
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
+const Main = ({ }) => {
+  const query = useQuery();
+  const conferenceAlias = query.get("alias");
+  const accessToken = query.get("token");
+
   const conferenceInUrl = conferenceAlias != null && conferenceAlias.length >= 0;
   const accessTokenInUrl = accessToken != null && accessToken.length >= 0;
-  const [ getAccessToken, setAccessToken ] = useState(accessToken);
+
   const [ alias, setAlias ] = useState(conferenceAlias);
+  const [ getAccessToken, setAccessToken ] = useState(accessToken);
   const [ username, setUsername ] = useState();
   const [ useDefaultSettings, setUseDefaultSettings ] = useState(true);
   const [ isListener, setIsListener ] = useState(false);
