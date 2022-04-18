@@ -25,7 +25,7 @@ window.addEventListener("storage", function (e) {
 });
 
 console.group('Dolby.io Conference Application');
-console.log('GitHub repository: https://github.com/FabienLavocat/comms-conference-app');
+console.log('GitHub repository: https://github.com/dolbyio-samples/comms-conference-app');
 console.groupEnd();
 
 ReactDOM.render(
