@@ -4,8 +4,6 @@ import { strings } from "../../languages/localizedStrings";
 import { connect } from "@voxeet/react-redux-5.1.1";
 import VoxeetSDK from "@voxeet/voxeet-web-sdk";
 import userPlaceholder from "../../../static/images/user-placeholder.png";
-import iconPlus from "../../../static/images/icons/icon-plus.svg";
-import iconSlideLeft from "../../../static/images/icons/icon-slide-left.svg";
 import { Actions as ParticipantActions } from "../../actions/ParticipantActions";
 import AttendeesParticipantMute from "./AttendeesParticipantMute";
 import AttendeesParticipantCamera from "./AttendeesParticipantCamera";
@@ -30,6 +28,13 @@ class AttendeesList extends Component {
     this.filterList = this.filterList.bind(this);
     this.inviteUserSelected = this.inviteUserSelected.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.copyInvitationLinkToClipboard = this.copyInvitationLinkToClipboard.bind(this);
+
+    // Get the token expiration date
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('token');
+    const jwt = JSON.parse(window.atob(accessToken.split('.')[1]));
+    this.accessTokenExpiration = new Date(jwt.exp * 1000).toString();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -93,6 +98,10 @@ class AttendeesList extends Component {
     );
   }
 
+  copyInvitationLinkToClipboard() {
+    navigator.clipboard.writeText(window.location.href);
+  }
+
   render() {
     const {
       activeSpeaker,
@@ -142,6 +151,7 @@ class AttendeesList extends Component {
         (p) => p.invited == false
       );
     }
+
     return (
       <div
         className={
@@ -152,6 +162,14 @@ class AttendeesList extends Component {
               : "attendees-list-hidden"
         }
       >
+        <div className="attendees-list-header">
+          <h1>Invitation</h1>
+        </div>
+        <div className="invitation-link">
+          <p>Copy the invitation link and share it with someone to join you in the conference. The link will expire on <span className="link-expiration">{this.accessTokenExpiration}</span>.</p>
+          <button type="button" onClick={() => this.copyInvitationLinkToClipboard()}>Copy to clipboard</button>
+        </div>
+
         <div className="attendees-list-header">
           <h1>{strings.attendees}</h1>
         </div>
