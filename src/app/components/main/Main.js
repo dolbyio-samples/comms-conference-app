@@ -68,6 +68,7 @@ const Main = ({ }) => {
       <Conference
         conferenceAlias={alias}
         accessToken={getAccessToken}
+        username={username}
         handleOnLeave={handleOnLeave}
       />
     );

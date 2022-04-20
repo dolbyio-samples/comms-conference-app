@@ -12,7 +12,7 @@ const videoRatio = {
   height: 720,
 };
 
-const Conference = ({ conferenceAlias, accessToken, handleOnLeave }) => {
+const Conference = ({ conferenceAlias, accessToken, username, handleOnLeave }) => {
   function refreshAccessToken() {
     return Promise.resolve(accessToken);
   }
@@ -35,10 +35,17 @@ const Conference = ({ conferenceAlias, accessToken, handleOnLeave }) => {
   urlParams.set('alias', conferenceAlias);
   window.history.replaceState("", "", window.location.href.replace(window.location.search, '') + '?' + urlParams);
 
+  const userInfo = {
+    name: username,
+    externalId: username,
+    avatarUrl: `https://gravatar.com/avatar/${Math.floor(Math.random() * 1000000)}?s=200&d=identicon`,
+  };
+
   return (
       <ConferenceRoom
         isWidget={false}
         autoJoin
+        userInfo={userInfo}
         videoRatio={videoRatio}
         kickOnHangUp
         handleOnLeave={() => {
