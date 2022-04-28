@@ -70,6 +70,8 @@ const Main = ({ }) => {
         accessToken={getAccessToken}
         username={username}
         handleOnLeave={handleOnLeave}
+        useDefaultSettings={useDefaultSettings}
+        isListener={isListener}
       />
     );
   }

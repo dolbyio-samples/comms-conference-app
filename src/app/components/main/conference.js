@@ -12,7 +12,7 @@ const videoRatio = {
   height: 720,
 };
 
-const Conference = ({ conferenceAlias, accessToken, username, handleOnLeave }) => {
+const Conference = ({ conferenceAlias, accessToken, username, handleOnLeave, useDefaultSettings, isListener }) => {
   function refreshAccessToken() {
     return Promise.resolve(accessToken);
   }
@@ -46,6 +46,7 @@ const Conference = ({ conferenceAlias, accessToken, username, handleOnLeave }) =
         isWidget={false}
         autoJoin
         userInfo={userInfo}
+        preConfig={!useDefaultSettings}
         videoRatio={videoRatio}
         kickOnHangUp
         handleOnLeave={() => {
@@ -58,6 +59,7 @@ const Conference = ({ conferenceAlias, accessToken, username, handleOnLeave }) =
         videoCodec={"H264"}
         oauthToken={accessToken && accessToken}
         refreshTokenCallback={accessToken && refreshAccessToken}
+        isListener={isListener}
       />
     );
 };
