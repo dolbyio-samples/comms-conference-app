@@ -12,6 +12,8 @@ const videoRatio = {
   height: 720,
 };
 
+const LIVE_RECORDING_ENABLED = true;
+
 const Conference = ({ conferenceAlias, accessToken, username, handleOnLeave, useDefaultSettings, isListener }) => {
   function refreshAccessToken() {
     return Promise.resolve(accessToken);
@@ -60,6 +62,7 @@ const Conference = ({ conferenceAlias, accessToken, username, handleOnLeave, use
         oauthToken={accessToken && accessToken}
         refreshTokenCallback={accessToken && refreshAccessToken}
         isListener={isListener}
+        liveRecordingEnabled={LIVE_RECORDING_ENABLED}
       />
     );
 };
