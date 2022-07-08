@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 const package = require("./package.json");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 
@@ -14,7 +13,7 @@ try {
 
 module.exports = {
   mode: "production",
-  entry: ["./src/app/VoxeetReactComponents.js"],
+  entry: ["./src/app/index.js"],
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin()],
@@ -24,11 +23,7 @@ module.exports = {
     filename: "bundle.js",
     libraryTarget: "umd",
   },
-  externals: {
-    '@voxeet/voxeet-web-sdk': true,
-    react: true,
-    'react-dom': true,
-  },
+  externals: {},
   module: {
     rules: [
       {
