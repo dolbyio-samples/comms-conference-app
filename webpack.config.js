@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 const package = require("./package.json");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 
 try {
   require("os").networkInterfaces();
@@ -24,8 +23,7 @@ module.exports = {
   },
   devServer: {
     port: 8080,
-    https: false,
-    host: "localhost",
+    server: "http",
     allowedHosts: "all",
     static: {
         directory: path.join(__dirname, "src"),
@@ -129,16 +127,5 @@ module.exports = {
       },
       __VERSION__: JSON.stringify(package.version),
     }),
-    // new webpack.NoEmitOnErrorsPlugin/(),
-    // new CopyPlugin({
-    //   patterns: [
-    //     {
-    //       from: "./src/static",
-    //       globOptions: {
-    //         ignore: ["**/index.html"]
-    //       }
-    //     },
-    //   ]
-    //   }),
   ],
 };
