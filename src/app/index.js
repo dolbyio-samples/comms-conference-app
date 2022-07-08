@@ -3,10 +3,11 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import thunkMiddleware from "redux-thunk";
 import { combineReducers, createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
 
 import {
-  VoxeetProvider,
   reducer as voxeetReducer,
+  getUxKitContext,
 } from "./VoxeetReactComponents";
 import Main from "./components/main/Main";
 
@@ -29,10 +30,15 @@ console.log('GitHub repository: https://github.com/dolbyio-samples/comms-confere
 console.groupEnd();
 
 ReactDOM.render(
-  <VoxeetProvider store={configureStore()}>
+  <Provider store={configureStore()} context={getUxKitContext()}>
     <Router basename={ASSET_PATH}>
-      <Main />
+        <Main />
     </Router>
-  </VoxeetProvider>,
+  </Provider>,
   document.getElementById("app")
 );
+
+
+if (module.hot) {
+  module.hot.accept();
+}
