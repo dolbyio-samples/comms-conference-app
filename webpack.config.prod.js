@@ -4,6 +4,7 @@ const package = require("./package.json");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 try {
   require('os').networkInterfaces();
@@ -131,5 +132,14 @@ module.exports = {
       js: [],
     }),
     // new webpack.NoEmitOnErrorsPlugin(),
+    new CopyWebpackPlugin({
+      patterns:[
+       { from: "./node_modules/@voxeet/voxeet-web-sdk/dist/dvwc_impl.wasm", noErrorOnMissing: true },
+       { from: "./node_modules/@voxeet/voxeet-web-sdk/dist/voxeet-dvwc-worker.js", noErrorOnMissing: true },
+       { from: "./node_modules/@voxeet/voxeet-web-sdk/dist/voxeet-worklet.js", noErrorOnMissing: true },
+       { from: "./node_modules/@voxeet/voxeet-web-sdk/dist/voxeet-dvwc-worker.js.map", noErrorOnMissing: true },
+       { from: "./node_modules/@voxeet/voxeet-web-sdk/dist/voxeet-worklet.js.map", noErrorOnMissing: true },
+     ]
+    }),
   ],
 };
