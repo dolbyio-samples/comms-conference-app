@@ -165,7 +165,7 @@ const Main = ({ }) => {
         </div>
       </div>
       <div className="copyright">
-        <span>Copyright © {new Date().getFullYear()} Dolby.io — {strings.copyright}</span>
+        <span>Copyright © {new Date().getFullYear()} Antidote Social Media Company — {strings.copyright}</span>
       </div>
     </div>
   );
