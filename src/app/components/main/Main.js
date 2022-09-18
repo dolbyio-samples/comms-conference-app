@@ -7,13 +7,13 @@ import dolbyLogo from "../../../static/images/dolbyio-logo.png";
 
 let strings = new LocalizedStrings({
   en: {
-    join: "Join call",
-    name: "Your name",
-    accessToken: "Your access token",
-    conferenceName: "The conference name",
+    join: "Join a videochat",
+    name: "What's Your Name?",
+    accessToken: "Secret Code",
+    conferenceName: "Braodcast name",
     copyright: " All Rights Reserved",
-    next: "Next",
-    joinAsListener: "Join as a listener",
+    next: "Login",
+    joinAsListener: "Listener Mode",
     defaultSettings: "Connect using default settings",
     advancedOptions: "advanced options",
     show: "Show",
