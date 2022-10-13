@@ -1,7 +1,7 @@
 {
   "name": "@dolbyio/conference-app",
   "version": "3.7.0",
-  "description": "",
+  "description": "Conference Application powered by Dolby.io",
   "main": "./dist/bundle.js",
   "scripts": {
     "start": "webpack serve",
