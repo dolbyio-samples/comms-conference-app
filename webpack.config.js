@@ -134,7 +134,9 @@ module.exports = {
        { from: "./node_modules/@voxeet/voxeet-web-sdk/dist/voxeet-dvwc-worker.js", noErrorOnMissing: true },
        { from: "./node_modules/@voxeet/voxeet-web-sdk/dist/voxeet-worklet.js", noErrorOnMissing: true },
        { from: "./node_modules/@voxeet/voxeet-web-sdk/dist/voxeet-dvwc-worker.js.map", noErrorOnMissing: true },
-       { from: "./node_modules/@voxeet/voxeet-web-sdk/dist/voxeet-worklet.js.map", noErrorOnMissing: true },
+       // VSL WASM resources
+       { from: "./node_modules/@voxeet/voxeet-web-sdk/dist/vsl_impl.pkgwvsl", noErrorOnMissing: true },
+       { from: "./node_modules/@voxeet/voxeet-web-sdk/dist/vsl_impl.wasm", noErrorOnMissing: true },
      ]
     }),
   ],

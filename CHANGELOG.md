@@ -1,5 +1,11 @@
 ## Changelog
 
+### 3.7.0
+
+#### Features
+
+- Support for [SDK 3.7.0](https://github.com/voxeet/voxeet-sdk-web/releases/tag/3.7.0)
+
 ### 3.5.0
 
 #### Features
