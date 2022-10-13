@@ -63,6 +63,7 @@ const Conference = ({ conferenceAlias, accessToken, username, handleOnLeave, use
         refreshTokenCallback={accessToken && refreshAccessToken}
         isListener={isListener}
         liveRecordingEnabled={LIVE_RECORDING_ENABLED}
+        dvwc={true}
       />
     );
 };
