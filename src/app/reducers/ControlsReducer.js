@@ -1,5 +1,4 @@
 import { Types } from "../actions/ControlsActions";
-import modes from "../constants/DisplayModes";
 import sounds from "../libs/sounds";
 
 const defaultState = {
@@ -164,12 +163,6 @@ const ControlsReducer = (state = defaultState, action) => {
         recordingLocked: false
       };
     case Types.LOCK_RECORDING: {
-      if (!state.disableSounds) {
-        const audio = new Audio(sounds.call_recorded);
-        audio.play().catch((e) => {
-          console.error('Could not play the sound', e.message)
-        });;
-      }
       return {
         ...state,
         recordingLocked: true
@@ -253,12 +246,7 @@ const ControlsReducer = (state = defaultState, action) => {
     }
     case Types.TOGGLE_RECORDING: {
       const currentStatus = state.isRecording;
-      if (!currentStatus && !state.disableSounds) {
-        const audio = new Audio(sounds.call_recorded);
-        audio.play().catch((e) => {
-          console.error('Could not play the sound', e.message)
-        });;
-      }
+
       return {
         ...state,
         isRecording: !currentStatus

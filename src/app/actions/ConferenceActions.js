@@ -1131,6 +1131,7 @@ export class Actions {
             sessionStorage.setItem("conferenceId", conferenceId);
             window.dispatchEvent(new Event("storage"));
             dispatch(ControlsActions.toggleRecording());
+            dispatch(OnBoardingMessageActions.onBoardingDisplay(strings.recordConferenceStart, 2000));
           })
           .catch((err) => {
             this._throwErrorModal(err);
@@ -1140,6 +1141,7 @@ export class Actions {
           .stop()
           .then(() => {
             dispatch(ControlsActions.toggleRecording());
+            dispatch(OnBoardingMessageActions.onBoardingDisplay(strings.recordConferenceStop, 2000));
           })
           .catch((err) => {
             this._throwErrorModal(err);
