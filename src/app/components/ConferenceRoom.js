@@ -679,7 +679,7 @@ class ConferenceRoom extends Component {
               {logo != null ? <img src={logo} /> : <div className="ddloader" />}
             </div>
             <div className="voxeet-loading-info-container">
-              {strings.browerNotSupported}
+              {strings.browserNotSupported}
             </div>
           </div>
         </div>
