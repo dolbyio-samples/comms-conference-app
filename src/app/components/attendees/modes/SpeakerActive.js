@@ -23,18 +23,17 @@ class SpeakerActive extends Component {
       return true;
     }
     const checker = document.getElementById("video-active-video-on");
-    if (
-        (!this.props.screenShareEnabled &&
-          ((checker != null && nextProps.participant.stream == null) ||
+    return (
+      (!this.props.screenShareEnabled &&
+        ((checker != null && nextProps.participant.stream == null) ||
           (checker != null && !nextProps.participant.stream.active) ||
-          (checker != null && nextProps.participant.stream.getVideoTracks().length === 0) ||
+          (checker != null &&
+            nextProps.participant.stream.getVideoTracks().length === 0) ||
           (checker == null && nextProps.participant.stream))) ||
       (this.props.mySelf && this.props.participant.name == null) ||
-      this.props.participant != nextProps.participant
-    ) {
-      return true;
-    }
-    return false;
+      this.props.mySelf !== nextProps.mySelf ||
+      this.props.participant !== nextProps.participant
+    );
   }
 
   render() {
@@ -55,13 +54,19 @@ class SpeakerActive extends Component {
       userStream,
       isScreenshare,
       dolbyVoiceEnabled,
-      kickPermission
+      kickPermission,
     } = this.props;
     const photoUrl = participant.avatarUrl || userPlaceholder;
     return (
       <div
-        id={"video-active-video-" + (participant.stream && participant.stream.active
-           && participant.stream.getVideoTracks().length > 0 ? "on" : "off")}
+        id={
+          "video-active-video-" +
+          (participant.stream &&
+          participant.stream.active &&
+          participant.stream.getVideoTracks().length > 0
+            ? "on"
+            : "off")
+        }
         className="active-speaker"
       >
         <div
@@ -100,11 +105,19 @@ class SpeakerActive extends Component {
 
           {!filePresentationEnabled && !videoPresentationEnabled && (
             <Fragment>
-              {screenShareEnabled || (participant.stream && participant.stream.active && participant.stream.getVideoTracks().length > 0) ? (
+              {screenShareEnabled ||
+              (participant.stream &&
+                participant.stream.active &&
+                participant.stream.getVideoTracks().length > 0) ? (
                 <div
-                  className={mySelf ? "stream-media myself" : "stream-media"}
+                  className={
+                    !screenShareEnabled && mySelf
+                      ? "stream-media myself"
+                      : "stream-media"
+                  }
                 >
                   <AttendeesParticipantVideo
+                    muted={!screenShareEnabled}
                     stream={
                       screenShareEnabled
                         ? screenShareStream
@@ -147,7 +160,7 @@ SpeakerActive.propTypes = {
   isAdminActived: PropTypes.bool.isRequired,
   mySelf: PropTypes.bool.isRequired,
   dolbyVoiceEnabled: PropTypes.bool,
-  kickPermission: PropTypes.bool
+  kickPermission: PropTypes.bool,
 };
 
 export default SpeakerActive;
