@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import bowser from "bowser";
 import { strings } from "../languages/localizedStrings";
 import Cookies from "./../libs/Storage";
 import VoxeetSDK from "@voxeet/voxeet-web-sdk";
@@ -467,7 +466,6 @@ class ConferenceRoom extends Component {
       (!isWebinar || (isWebinar && isAdmin));
     let doPreConfig =
       !isListener &&
-      !bowser.msie &&
       !isMobile() &&
       (!isWebinar || (isWebinar && isAdmin))
         ? preConfig
@@ -485,7 +483,7 @@ class ConferenceRoom extends Component {
   }
 
   /**
-   * Check precofigured devices and is it possible to create audio context
+   * Check preconfigured devices and is it possible to create audio context
    * @returns {Promise<void>}
    */
   async preConfigCheck(preConfig) {
@@ -681,37 +679,11 @@ class ConferenceRoom extends Component {
             <div className="voxeet-loading-info-container">
               {errorMessage === "NotAllowedError: Permission denied" &&
                 strings.errorPermissionDeniedMicrophone}
-              {bowser.msie && (
-                <Fragment>
-                  {strings.errorIE11}
-                  <div>
-                    <a
-                      download
-                      href="https://s3.amazonaws.com/voxeet-cdn/ie11/WebRTC+ActiveX+Setup.exe"
-                    >
-                      Download
-                    </a>
-                  </div>
-                </Fragment>
-              )}
             </div>
           </div>
           <div className="voxeet-loading-info-container">
             {errorMessage === "NotAllowedError: Permission denied" &&
               strings.errorPermissionDenied}
-            {bowser.msie && (
-              <Fragment>
-                {strings.errorIE11}
-                <div>
-                  <a
-                    download
-                    href="https://s3.amazonaws.com/voxeet-cdn/ie11/WebRTC+ActiveX+Setup.exe"
-                  >
-                    Download
-                  </a>
-                </div>
-              </Fragment>
-            )}
           </div>
         </div>
       );
