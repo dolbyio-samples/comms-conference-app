@@ -161,7 +161,8 @@ export class Actions {
       const device = Cookies.getDevice("camera");
       if (device) {
         devices.forEach((source) => {
-          if (device && device.deviceId === source.deviceId) videoCookieExist = true;
+          if (device && device.deviceId === source.deviceId)
+            videoCookieExist = true;
         });
       }
 
@@ -187,10 +188,7 @@ export class Actions {
           }
           getVideoDeviceName(device.deviceId).then((isBackCamera) => {
             dispatch(
-              InputManagerActions.inputVideoChange(
-                device,
-                isBackCamera
-              )
+              InputManagerActions.inputVideoChange(device, isBackCamera)
             );
           });
         }
@@ -203,12 +201,12 @@ export class Actions {
     let outputCookieExist = false;
     VoxeetSDK.mediaDevice.enumerateAudioOutputDevices().then((devices) => {
       const device = Cookies.getDevice("output");
-      if (device){
+      if (device) {
         devices.map((source, i) => {
           if (device.deviceId === source.deviceId) outputCookieExist = true;
         });
       }
-      if (outputCookieExist){
+      if (outputCookieExist) {
         VoxeetSDK.mediaDevice
           .selectAudioOutput(device.deviceId)
           .then(() => dispatch(InputManagerActions.outputAudioChange(device)))
@@ -274,7 +272,11 @@ export class Actions {
     constraints,
     videoRatio
   ) {
-    if (preConfigPayload && preConfigPayload.videoEnabled && preConfigPayload.videoDeviceSelected && !bowser.msie) {
+    if (
+      preConfigPayload &&
+      preConfigPayload.videoEnabled &&
+      preConfigPayload.videoDeviceSelected
+    ) {
       if (videoRatio != null) {
         constraints.video = {
           height: videoRatio.height,
@@ -300,17 +302,29 @@ export class Actions {
     return constraints;
   }
 
-  static async setVirtualBackground(virtualBackgroundMode, videoEnabled, videoDenoise) {
+  static async setVirtualBackground(
+    virtualBackgroundMode,
+    videoEnabled,
+    videoDenoise
+  ) {
     if (videoEnabled) {
       if (isElectron()) {
-        console.log("About to set vb to selected", virtualBackgroundMode, VoxeetSDK.videoFilters);
+        console.log(
+          "About to set vb to selected",
+          virtualBackgroundMode,
+          VoxeetSDK.videoFilters
+        );
         switch (virtualBackgroundMode) {
           case "bokeh":
           case "staticimage":
-            await VoxeetSDK.videoFilters.setFilter(virtualBackgroundMode, { videoDenoise: videoDenoise });
+            await VoxeetSDK.videoFilters.setFilter(virtualBackgroundMode, {
+              videoDenoise: videoDenoise,
+            });
             break;
           default:
-            await VoxeetSDK.videoFilters.setFilter("none", { videoDenoise: videoDenoise });
+            await VoxeetSDK.videoFilters.setFilter("none", {
+              videoDenoise: videoDenoise,
+            });
         }
       } else {
         if (virtualBackgroundMode === "bokeh") {
@@ -364,7 +378,7 @@ export class Actions {
       dispatch(ParticipantActions.clearParticipantsList());
       dispatch(this._conferenceConnecting());
       const {
-        voxeet: { participants, controls, },
+        voxeet: { participants, controls },
       } = getState();
       let userInfo = {
         name: userInfoRaw.name,
@@ -431,7 +445,7 @@ export class Actions {
                   simulcast: simulcast,
                   maxVideoForwarding: maxVideoForwarding,
                   dvwc: dvwc,
-                  spatialAudio
+                  spatialAudio,
                 })
                 .then(function (res) {
                   if (isIOS() && navigator.userAgent.match(/AppleWebKit/)) {
@@ -474,7 +488,7 @@ export class Actions {
           });
       }
 
-      if (preConfigPayload == null && !bowser.msie && !participants.isWebinar) {
+      if (preConfigPayload == null && !participants.isWebinar) {
         this.setVideoConstraints(constraints, videoRatio, dispatch);
         if (constraints.audio) {
           constraints = this.setAudioConstraints(constraints, dispatch);
@@ -500,7 +514,7 @@ export class Actions {
                   videoFilter: virtualBackgroundMode,
                   videoFilterOptions: { videoDenoise: videoDenoise },
                   dvwc: dvwc,
-                  spatialAudio
+                  spatialAudio,
                 })
                 .then((res) => {
                   dispatch(
@@ -552,12 +566,22 @@ export class Actions {
                     dispatch(ControlsActions.toggleAudio(false));
                   if (bowser.chrome) {
                     if (preConfigPayload != null) {
-                      if (preConfigPayload.outputDeviceSelected && preConfigPayload.outputDeviceSelected.deviceId !== "default")
+                      if (
+                        preConfigPayload.outputDeviceSelected &&
+                        preConfigPayload.outputDeviceSelected.deviceId !==
+                          "default"
+                      )
                         VoxeetSDK.mediaDevice
                           .selectAudioOutput(
                             preConfigPayload.outputDeviceSelected
                           )
-                          .then(() => dispatch(InputManagerActions.outputAudioChange(preConfigPayload.outputDeviceSelected)))
+                          .then(() =>
+                            dispatch(
+                              InputManagerActions.outputAudioChange(
+                                preConfigPayload.outputDeviceSelected
+                              )
+                            )
+                          )
                           .catch((err) => {
                             console.log(err);
                           });
@@ -566,7 +590,13 @@ export class Actions {
                     }
                   }
                 })
-                .then(() => this.setVirtualBackground(virtualBackgroundMode, controls.videoEnabled, controls.videoDenoise));
+                .then(() =>
+                  this.setVirtualBackground(
+                    virtualBackgroundMode,
+                    controls.videoEnabled,
+                    controls.videoDenoise
+                  )
+                );
             })
             .catch((err) => {
               console.error(err);
@@ -584,7 +614,6 @@ export class Actions {
       if (constraints.video && videoRatio != null && preConfigPayload == null) {
         constraints.video = videoRatio;
       }
-      if (bowser.msie) constraints.video = false;
 
       return VoxeetSDK.conference
         .create({
@@ -608,7 +637,7 @@ export class Actions {
               videoFilter: virtualBackgroundMode,
               videoFilterOptions: { videoDenoise: videoDenoise },
               dvwc: dvwc,
-              spatialAudio
+              spatialAudio,
             })
             .then((res) => {
               dispatch(
@@ -660,10 +689,19 @@ export class Actions {
                 dispatch(ControlsActions.toggleAudio(false));
               if (bowser.chrome) {
                 if (preConfigPayload != null) {
-                  if (preConfigPayload.outputDeviceSelected && preConfigPayload.outputDeviceSelected.deviceId !== "default")
+                  if (
+                    preConfigPayload.outputDeviceSelected &&
+                    preConfigPayload.outputDeviceSelected.deviceId !== "default"
+                  )
                     VoxeetSDK.mediaDevice
                       .selectAudioOutput(preConfigPayload.outputDeviceSelected)
-                      .then(() => dispatch(InputManagerActions.outputAudioChange(preConfigPayload.outputDeviceSelected)))
+                      .then(() =>
+                        dispatch(
+                          InputManagerActions.outputAudioChange(
+                            preConfigPayload.outputDeviceSelected
+                          )
+                        )
+                      )
                       .catch((err) => {
                         console.log(err);
                       });
@@ -687,7 +725,13 @@ export class Actions {
                 );
               }
             })
-            .then(() => this.setVirtualBackground(virtualBackgroundMode, controls.videoEnabled, controls.videoDenoise));
+            .then(() =>
+              this.setVirtualBackground(
+                virtualBackgroundMode,
+                controls.videoEnabled,
+                controls.videoDenoise
+              )
+            );
         })
         .catch((err) => {
           console.log(err);
@@ -782,37 +826,29 @@ export class Actions {
       }
       if (!controls.audioEnabled) {
         let inputCookieExist = false;
-        if (!bowser.msie) {
-          VoxeetSDK.mediaDevice.enumerateAudioInputDevices().then((devices) => {
-            devices.forEach((source) => {
-              const inputDevice = Cookies.getDevice("input")
-              if (inputDevice && inputDevice.deviceId === source.deviceId)
-                inputCookieExist = true;
-            });
-            if (!inputCookieExist) {
-              let selected_device = devices.find(
-                (device) => device.deviceId === "default"
-              );
-              if (!selected_device) selected_device = devices[0];
-              dispatch(
-                InputManagerActions.inputAudioChange(selected_device)
-              );
-            } else {
-              dispatch(
-                InputManagerActions.inputAudioChange(Cookies.getDevice("input"))
-              );
-            }
-            VoxeetSDK.audio.local.start()
-              .then(() => {
-                dispatch(ControlsActions.toggleAudio(true));
-              });
+        VoxeetSDK.mediaDevice.enumerateAudioDevices().then((devices) => {
+          devices.forEach((source) => {
+            const inputDevice = Cookies.getDevice("input");
+            if (inputDevice && inputDevice.deviceId === source.deviceId)
+              inputCookieExist = true;
           });
-        } else {
-          VoxeetSDK.audio.local.start()
+          if (!inputCookieExist) {
+            let selected_device = devices.find(
+              (device) => device.deviceId === "default"
+            );
+            if (!selected_device) selected_device = devices[0];
+            dispatch(InputManagerActions.inputAudioChange(selected_device));
+          } else {
+            dispatch(
+              InputManagerActions.inputAudioChange(Cookies.getDevice("input"))
+            );
+          }
+          VoxeetSDK.audio.remote
+            .start(VoxeetSDK.session.participant)
             .then(() => {
               dispatch(ControlsActions.toggleAudio(true));
             });
-        }
+        });
       } else {
         if (userId === VoxeetSDK.session.participant.id) {
           VoxeetSDK.conference.mute(user, !isMuted);
@@ -854,12 +890,12 @@ export class Actions {
 
   static setAudioTransparentMode(enabled) {
     return (dispatch) => {
-      const options = enabled ? { mode: "unprocessed" } : { mode: "standard", modeOptions: {noiseReductionLevel: "high"}};
-        return VoxeetSDK.audio.local
-        .setCaptureMode(options)
-        .then(() => {
-          dispatch(ControlsActions.setAudioTransparentMode(enabled));
-        });
+      const options = enabled
+        ? { mode: "unprocessed" }
+        : { mode: "standard", modeOptions: { noiseReductionLevel: "high" } };
+      return VoxeetSDK.audio.local.setCaptureMode(options).then(() => {
+        dispatch(ControlsActions.setAudioTransparentMode(enabled));
+      });
     };
   }
 
@@ -912,15 +948,18 @@ export class Actions {
         voxeet: { controls, inputManager },
       } = getState();
       if (!videoStarted) {
-        const virtualBackgroundMode = controls.virtualBackgroundMode !== undefined
-          ? controls.virtualBackgroundMode
-          : Cookies.get("virtualBackgroundMode");
-        const processor = virtualBackgroundMode != null && virtualBackgroundMode !== 'none' ? {type: virtualBackgroundMode} : {};
+        const virtualBackgroundMode =
+          controls.virtualBackgroundMode !== undefined
+            ? controls.virtualBackgroundMode
+            : Cookies.get("virtualBackgroundMode");
+        const processor =
+          virtualBackgroundMode != null && virtualBackgroundMode !== "none"
+            ? { type: virtualBackgroundMode }
+            : null;
 
         const payloadConstraints = {
           deviceId: inputManager.currentVideoDevice?.deviceId,
         };
-
         if (controls.videoRatio) {
           payloadConstraints.width = controls.videoRatio.width;
           payloadConstraints.height = controls.videoRatio.height;
@@ -930,10 +969,7 @@ export class Actions {
           .start(payloadConstraints, processor)
           .then(() => {
             dispatch(
-              OnBoardingMessageActions.onBoardingDisplay(
-                strings.cameraOn,
-                1000
-              )
+              OnBoardingMessageActions.onBoardingDisplay(strings.cameraOn, 1000)
             );
             dispatch(ControlsActions.toggleVideo(true));
           })
@@ -942,7 +978,7 @@ export class Actions {
           });
       } else {
         return VoxeetSDK.video.local
-         .stop()
+          .stop()
           .then(() => {
             dispatch(ControlsActions.toggleVideo(false));
             dispatch(
@@ -1015,40 +1051,42 @@ export class Actions {
         );
       }
       if (enableScreenShare)
-        return VoxeetSDK.conference.startScreenShare().catch((err) => {
-          if (
-            err.message === "Chrome Web Extension is not installed" &&
-            controls.chromeExtensionId != null
-          ) {
-            dispatch(
-              OnBoardingMessageWithActionActions.onBoardingMessageWithAction(
-                strings.installExtension,
-                "https://chrome.google.com/webstore/detail/" +
-                  controls.chromeExtensionId +
-                  "."
-              )
-            );
-          } else if (
-            err.message === "Chrome Web Extension is not installed" &&
-            controls.chromeExtensionId == null
-          ) {
-            dispatch(
-              OnBoardingMessageWithActionActions.onBoardingMessageWithAction(
-                strings.noExtensionAvailable,
-                null,
-                true
-              )
-            );
-          } else if (err) {
-            dispatch(
-              OnBoardingMessageWithActionActions.onBoardingMessageWithAction(
-                err.message,
-                null,
-                true
-              )
-            );
-          }
-        });
+        return VoxeetSDK.conference
+          .startScreenShare({ audio: true })
+          .catch((err) => {
+            if (
+              err.message === "Chrome Web Extension is not installed" &&
+              controls.chromeExtensionId != null
+            ) {
+              dispatch(
+                OnBoardingMessageWithActionActions.onBoardingMessageWithAction(
+                  strings.installExtension,
+                  "https://chrome.google.com/webstore/detail/" +
+                    controls.chromeExtensionId +
+                    "."
+                )
+              );
+            } else if (
+              err.message === "Chrome Web Extension is not installed" &&
+              controls.chromeExtensionId == null
+            ) {
+              dispatch(
+                OnBoardingMessageWithActionActions.onBoardingMessageWithAction(
+                  strings.noExtensionAvailable,
+                  null,
+                  true
+                )
+              );
+            } else if (err) {
+              dispatch(
+                OnBoardingMessageWithActionActions.onBoardingMessageWithAction(
+                  err.message,
+                  null,
+                  true
+                )
+              );
+            }
+          });
       else return VoxeetSDK.conference.stopScreenShare();
     };
   }
@@ -1153,7 +1191,12 @@ export class Actions {
       const {
         voxeet: { controls },
       } = getState();
-      await ConferenceActions.setVirtualBackground(mode, controls.videoEnabled, controls.videoDenoise);
+
+      await ConferenceActions.setVirtualBackground(
+        mode,
+        controls.videoEnabled,
+        controls.videoDenoise
+      );
 
       Cookies.set("virtualBackgroundMode", mode);
       dispatch(ControlsActions.setVirtualBackgroundMode(mode));
@@ -1437,9 +1480,6 @@ export class Actions {
           dispatch(ParticipantActions.onScreenShareStopped());
           dispatch(ControlsActions.toggleScreenShareMode(false));
         } else {
-          dispatch(ParticipantWaitingActions.onParticipantWaitingLeft(user.id));
-          dispatch(ParticipantActions.onParticipantLeft(user.id));
-
           // VFS
           dispatch(ForwardedVideoActions.updateForwardedVideos());
         }
@@ -1521,7 +1561,7 @@ export class Actions {
             isError = true;
             break;
           case "BrowserNotSupportedError":
-            title = strings.browerNotSupported;
+            title = strings.browserNotSupported;
             description = null;
             isError = true;
             break;
@@ -1623,14 +1663,20 @@ export class Actions {
       VoxeetSDK.recording.on("statusUpdated", (recording, status) => {
         const { userId, startTimestamp } = recording || {};
         if (!userId && !startTimestamp) return;
-        let message = status === "recording" ? strings.recordConferenceStart : strings.recordConferenceStop;
+        let message =
+          status === "recording"
+            ? strings.recordConferenceStart
+            : strings.recordConferenceStop;
         if (userId && VoxeetSDK.session.participant.id !== userId) {
           let user = VoxeetSDK.conference.participants.get(userId);
           let name = user && user.info ? user.info.name : "(unknown)";
-          message = status === "recording" ? `${strings.recordConferenceStartBy}${name}.` : `${strings.recordConferenceStopBy}${name}.`;
+          message =
+            status === "recording"
+              ? `${strings.recordConferenceStartBy}${name}.`
+              : `${strings.recordConferenceStopBy}${name}.`;
         }
         dispatch(OnBoardingMessageActions.onBoardingDisplay(message, 1000));
-      })
+      });
 
       VoxeetSDK.command.on("received", (participant, message) => {
         const dataParsed = JSON.parse(message);

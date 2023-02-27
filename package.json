@@ -1,6 +1,6 @@
 {
   "name": "@dolbyio/conference-app",
-  "version": "3.7.0",
+  "version": "3.8.5",
   "description": "Conference Application powered by Dolby.io",
   "main": "./dist/bundle.js",
   "scripts": {
@@ -90,7 +90,7 @@
     "webpack-dev-server": "^4.9.0"
   },
   "peerDependencies": {
-    "@voxeet/voxeet-web-sdk": "^3.7.0"
+    "@voxeet/voxeet-web-sdk": "^3.8.5"
   },
   "files": [
     "README.md",
